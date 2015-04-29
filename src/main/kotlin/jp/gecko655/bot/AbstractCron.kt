@@ -50,7 +50,12 @@ abstract class AbstractCron : Job {
     }
 
     override fun execute(context: JobExecutionContext?) {
-        twitterCron()
+        try {
+            twitterCron()
+        }catch(e: Exception){
+            e.printStackTrace()
+        }
+
     }
     abstract protected fun twitterCron()
 
