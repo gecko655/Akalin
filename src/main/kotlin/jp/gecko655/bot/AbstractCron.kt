@@ -21,7 +21,7 @@ import kotlin.properties.Delegates
 
 abstract class AbstractCron : Job {
 
-    val logger by Delegates.lazy {
+    protected val logger :Logger by Delegates.lazy {
         val l = Logger.getLogger("Fujimiya")
         l.setLevel(Level.INFO)
         l
@@ -34,7 +34,7 @@ abstract class AbstractCron : Job {
     private val accessTokenSecret = System.getenv("accessTokenSecret")
     private val customSearchCx = System.getenv("customSearchCx")
     private val customSearchKey = System.getenv("customSearchKey")
-    private val twitter :Twitter by Delegates.lazy{
+    protected val twitter :Twitter by Delegates.lazy{
         val cb = ConfigurationBuilder()
                 .setDebugEnabled(true)
                 .setOAuthAccessToken(accessToken)
@@ -49,7 +49,12 @@ abstract class AbstractCron : Job {
         builder.build()
     }
 
-    public fun getFujimiyaUrl(query: String) = getFujimiyaUrl(query,100)
+    override fun execute(context: JobExecutionContext?) {
+        twitterCron()
+    }
+    abstract protected fun twitterCron()
+
+    public fun getFujimiyaUrl(query: String) :FetchedImage = getFujimiyaUrl(query,100)
     public fun getFujimiyaUrl(query: String, maxRankOfResult: Int) :FetchedImage{
         val search = getSearchResult(query,maxRankOfResult)
         val items = search.getItems()
@@ -98,7 +103,7 @@ abstract class AbstractCron : Job {
     }
 
     public fun updateStatusWithMedia(update: StatusUpdate, query: String, maxRankOfResult: Int){
-        va
+        val fetchedImage = getFujimiyaUrl(query,maxRankOfResult)
         update.media("fujimiya.jpg",fetchedImage.instream)
         for(i in 1..10){
             try {
