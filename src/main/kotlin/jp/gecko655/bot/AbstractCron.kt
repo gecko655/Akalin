@@ -17,10 +17,16 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.util.logging.Level
 import java.util.logging.Logger
+import kotlin.properties.Delegates
 
 abstract class AbstractCron : Job {
 
-    val logger = Logger.getLogger("Fujimiya")
+    val logger by Delegates.lazy {
+        val l = Logger.getLogger("Fujimiya")
+        l.setLevel(Level.INFO)
+        l
+    }
+
 
     val consumerKey = System.getenv("consumerKey")
     val consumerSecret = System.getenv("consumerSecret")
@@ -28,19 +34,19 @@ abstract class AbstractCron : Job {
     val accessTokenSecret = System.getenv("accessTokenSecret")
     val customSearchCx = System.getenv("customSearchCx")
     val customSearchKey = System.getenv("customSearchKey")
-    val twitter :Twitter
-    val search :Customsearch
-
-    init{
+    val twitter :Twitter by Delegates.lazy{
         val cb = ConfigurationBuilder()
                 .setDebugEnabled(true)
                 .setOAuthAccessToken(accessToken)
                 .setOAuthAccessTokenSecret(accessTokenSecret)
                 .setOAuthConsumerKey(consumerKey)
                 .setOAuthConsumerSecret(consumerSecret)
-        twitter = TwitterFactory(cb.build()).getInstance()
+        TwitterFactory(cb.build()).getInstance()
+
+    }
+    val search :Customsearch by Delegates.lazy{
         val builder = Customsearch.Builder(NetHttpTransport(), JacksonFactory(), null).setApplicationName("Google")
-        search = builder.build()
+        builder.build()
     }
 
     fun getFujimiyaUrl(query: String) = getFujimiyaUrl(query,100)

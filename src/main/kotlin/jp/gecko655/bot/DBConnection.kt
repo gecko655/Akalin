@@ -3,7 +3,7 @@ package jp.gecko655.bot
 import twitter4j.Status
 
 /**
- * Created by akihiro on 15/04/29.
+ * Created by gecko655 on 15/04/29.
  */
 public object DBConnection {
     fun isInBlackList(url: String): Boolean {
