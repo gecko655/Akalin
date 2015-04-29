@@ -28,8 +28,12 @@ public class AkalinReply : AbstractCron() {
     override fun twitterCron() {
         try {
             val replies = twitter.getMentionsTimeline((Paging()).count(20))
-            val lastStatus = DBConnection.getLastStatus()
+            if(replies.isEmpty()){
+                logger.log(Level.INFO, "Not yet replied. Stop.")
+                return
+            }
             DBConnection.setLastStatus(replies.get(0))
+            val lastStatus = DBConnection.getLastStatus()
             if (lastStatus == null) {
                 logger.log(Level.INFO, "memcache saved. Stop. " + replies.get(0).getUser().getName() + "'s tweet at " + format.format(replies.get(0).getCreatedAt()))
                 return
