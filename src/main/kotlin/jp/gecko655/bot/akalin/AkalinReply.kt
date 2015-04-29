@@ -21,7 +21,7 @@ public class AkalinReply : AbstractCron() {
         private val keishouPattern = Pattern.compile("(くん|さん|君|ちゃん)$")
         private val whoPattern = Pattern.compile("( 誰$| だれ$|誰[^だで]|だれ[^だで]|誰だ[^と]?|だれだ[^と]?| 違う| ちがう)")
     }
-    {
+    init {
         format.setTimeZone(TimeZone.getDefault())
     }
 
