@@ -8,11 +8,11 @@ public class AkalinBot : AbstractCron() {
     override fun twitterCron() {
         //Twitterに書き出し
         val status = StatusUpdate(" ")
-        if (((Math.random() * 10).toInt()) == 1) {
-            //10%
-            updateStatusWithMedia(status, "山岸さん 一週間フレンズ。", 100)
-        } else {
-            updateStatusWithMedia(status, "藤宮さん 一週間フレンズ。", 100)
+        when ((Math.random() * 10).toInt()) {
+            0 -> updateStatusWithMedia(status, "赤座あかり ゆるゆり", 100)
+            in 1..3 -> updateStatusWithMedia(status, "歳納京子 ゆるゆり", 100)
+            in 4..6 -> updateStatusWithMedia(status, "船見結衣 ゆるゆり", 100)
+            in 4..6 -> updateStatusWithMedia(status, "吉川ちなつ ゆるゆり", 100)
         }
 
     }

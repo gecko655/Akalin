@@ -49,11 +49,11 @@ public class AkalinReply : AbstractCron() {
                     //auto reply (when fujimiya-san follows the replier)
                     val update = StatusUpdate("@" + reply.getUser().getScreenName() + " ")
                     update.setInReplyToStatusId(reply.getId())
-                    if (((Math.random() * 10).toInt()) == 1) {
-                        //10%
-                        updateStatusWithMedia(update, "山岸沙希 かわいい 一週間フレンズ。", 100)
-                    } else {
-                        updateStatusWithMedia(update, "藤宮香織 かわいい 一週間フレンズ。", 100)
+                    when ((Math.random() * 10).toInt()) {
+                        0 -> updateStatusWithMedia(update, "赤座あかり ゆるゆり かわいい", 100)
+                        in 1..3 -> updateStatusWithMedia(update, "歳納京子 ゆるゆり かわいい", 100)
+                        in 4..6 -> updateStatusWithMedia(update, "船見結衣 ゆるゆり かわいい", 100)
+                        in 4..6 -> updateStatusWithMedia(update, "吉川ちなつ ゆるゆり かわいい", 100)
                     }
                 }
             }

@@ -1,19 +1,14 @@
 package jp.gecko655.bot
 
+import jp.gecko655.bot.akalin.AkalinReply
+import org.jetbrains.kotlin.load.java.structure
+import org.quartz.*
 import org.quartz.JobBuilder.newJob
 import org.quartz.SimpleScheduleBuilder.repeatSecondlyForever
 import org.quartz.TriggerBuilder.newTrigger
 
 import java.util.TimeZone
 
-import org.quartz.CronScheduleBuilder
-import org.quartz.DateBuilder
-import org.quartz.Job
-import org.quartz.JobDetail
-import org.quartz.ScheduleBuilder
-import org.quartz.Scheduler
-import org.quartz.SchedulerException
-import org.quartz.Trigger
 import org.quartz.impl.StdSchedulerFactory
 import kotlin.properties.Delegates
 
@@ -23,12 +18,13 @@ object SchedulerMain {
     }
     fun main(args: Array<String>){
         System.out.println("Scheduler Started!!!")
+        setSchedule(javaClass<AkalinReply>(), SimpleScheduleBuilder.repeatSecondlyForever(2*60))
 
         scheduler.start()
 
     }
 
-    private fun setSchedule(classForExecute: Class<Job>, schedule: ScheduleBuilder<Trigger>) {
+    private fun setSchedule(classForExecute: Class<out Job>, schedule: SimpleScheduleBuilder) {
         val jobDetail = newJob(classForExecute).build()
 
         val trigger = newTrigger()
