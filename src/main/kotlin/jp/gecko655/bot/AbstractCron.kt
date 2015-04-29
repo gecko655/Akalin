@@ -28,13 +28,13 @@ abstract class AbstractCron : Job {
     }
 
 
-    val consumerKey = System.getenv("consumerKey")
-    val consumerSecret = System.getenv("consumerSecret")
-    val accessToken = System.getenv("accessToken")
-    val accessTokenSecret = System.getenv("accessTokenSecret")
-    val customSearchCx = System.getenv("customSearchCx")
-    val customSearchKey = System.getenv("customSearchKey")
-    val twitter :Twitter by Delegates.lazy{
+    private val consumerKey = System.getenv("consumerKey")
+    private val consumerSecret = System.getenv("consumerSecret")
+    private val accessToken = System.getenv("accessToken")
+    private val accessTokenSecret = System.getenv("accessTokenSecret")
+    private val customSearchCx = System.getenv("customSearchCx")
+    private val customSearchKey = System.getenv("customSearchKey")
+    private val twitter :Twitter by Delegates.lazy{
         val cb = ConfigurationBuilder()
                 .setDebugEnabled(true)
                 .setOAuthAccessToken(accessToken)
@@ -44,13 +44,13 @@ abstract class AbstractCron : Job {
         TwitterFactory(cb.build()).getInstance()
 
     }
-    val search :Customsearch by Delegates.lazy{
+    private val search :Customsearch by Delegates.lazy{
         val builder = Customsearch.Builder(NetHttpTransport(), JacksonFactory(), null).setApplicationName("Google")
         builder.build()
     }
 
-    fun getFujimiyaUrl(query: String) = getFujimiyaUrl(query,100)
-    fun getFujimiyaUrl(query: String, maxRankOfResult: Int) :FetchedImage{
+    public fun getFujimiyaUrl(query: String) = getFujimiyaUrl(query,100)
+    public fun getFujimiyaUrl(query: String, maxRankOfResult: Int) :FetchedImage{
         val search = getSearchResult(query,maxRankOfResult)
         val items = search.getItems()
         for(result in items){
@@ -79,9 +79,9 @@ abstract class AbstractCron : Job {
         throw ConnectException("Connection failed 10 times")
     }
 
-    val apiLimit = 100
-    val pageSize = 10
-    fun getSearchResult(query: String, _maxRankOfResult: Int): Search {
+    private val apiLimit = 100
+    private val pageSize = 10
+    private fun getSearchResult(query: String, _maxRankOfResult: Int): Search {
         val maxRankOfResult =
                 if(_maxRankOfResult <= apiLimit - pageSize + 1)
                     _maxRankOfResult else (apiLimit - pageSize + 1)
@@ -97,8 +97,8 @@ abstract class AbstractCron : Job {
 
     }
 
-    fun updateStatusWithMedia(update: StatusUpdate, query: String, maxRankOfResult: Int){
-        val fetchedImage = getFujimiyaUrl(query,maxRankOfResult)
+    public fun updateStatusWithMedia(update: StatusUpdate, query: String, maxRankOfResult: Int){
+        va
         update.media("fujimiya.jpg",fetchedImage.instream)
         for(i in 1..10){
             try {
