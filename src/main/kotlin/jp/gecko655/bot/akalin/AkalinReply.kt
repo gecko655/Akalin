@@ -57,7 +57,7 @@ public class AkalinReply : AbstractCron() {
                         0 -> updateStatusWithMedia(update, "赤座あかり ゆるゆり かわいい", 100)
                         in 1..3 -> updateStatusWithMedia(update, "歳納京子 ゆるゆり かわいい", 100)
                         in 4..6 -> updateStatusWithMedia(update, "船見結衣 ゆるゆり かわいい", 100)
-                        in 4..6 -> updateStatusWithMedia(update, "吉川ちなつ ゆるゆり かわいい", 100)
+                        in 7..9 -> updateStatusWithMedia(update, "吉川ちなつ ゆるゆり かわいい", 100)
                     }
                 }
             }
