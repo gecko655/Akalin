@@ -18,7 +18,6 @@ public class AkalinReply : AbstractCron() {
 
     companion object {
         val format = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL)
-        private val keishouPattern = Pattern.compile("(くん|さん|君|ちゃん)$")
         private val whoPattern = Pattern.compile("( 誰$| だれ$|誰[^だで]|だれ[^だで]|誰だ[^と]?|だれだ[^と]?| 違う| ちがう)")
     }
     init {
@@ -72,13 +71,6 @@ public class AkalinReply : AbstractCron() {
 
     private fun followBack(reply: Status) {
         twitter.createFriendship(reply.getUser().getId())
-        var userName = reply.getUser().getName()
-        if (!keishouPattern.matcher(userName).find()) {
-            userName = userName + "くん"
-        }
-        val update = StatusUpdate("@" + reply.getUser().getScreenName() + " もしかして、あなたが" + userName + "？")
-        update.setInReplyToStatusId(reply.getId())
-        twitter.updateStatus(update)
     }
 
     private fun who(reply: Status) {
