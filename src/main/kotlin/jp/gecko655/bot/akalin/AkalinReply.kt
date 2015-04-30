@@ -26,30 +26,31 @@ public class AkalinReply : AbstractCron() {
     }
 
     override fun twitterCron() {
-        try {
-            val replies = twitter.getMentionsTimeline((Paging()).count(20))
-            if(replies.isEmpty()){
-                logger.log(Level.INFO, "Not yet replied. Stop.")
-                return
-            }
-            DBConnection.setLastStatus(replies.get(0))
-            val lastStatus = DBConnection.getLastStatus()
-            if (lastStatus == null) {
-                logger.log(Level.INFO, "memcache saved. Stop. " + replies.get(0).getUser().getName() + "'s tweet at " + format.format(replies.get(0).getCreatedAt()))
-                return
-            }
+        val lastStatus = DBConnection.getLastStatus()
+        val replies = twitter.getMentionsTimeline((Paging()).count(20))
+                .filterNot { isOutOfDate(it,lastStatus) }
+        if(replies.isEmpty()){
+            logger.log(Level.FINE, "No replies found. Stop.")
+            return
+        }
+        DBConnection.setLastStatus(replies.get(0))
+        if (lastStatus == null) {
+            logger.log(Level.INFO, "memcache saved. Stop. " + replies.get(0).getUser().getName() + "'s tweet at " + format.format(replies.get(0).getCreatedAt()))
+            return
+        }
 
-            for (reply in replies) {
-                if (isOutOfDate(reply, lastStatus))
-                    break
-                val relation = twitter.friendsFollowers().showFriendship(twitter.getId(), reply.getUser().getId())
-
-                if (!relation.isSourceFollowingTarget()) {
+        replies.forEach { reply ->
+            when {
+                !twitter.friendsFollowers()
+                        .showFriendship(twitter.getId(), reply.getUser().getId())
+                        .isSourceFollowingTarget() -> {
                     followBack(reply)
-                } else if (whoPattern.matcher(reply.getText()).find()) {
+                }
+                whoPattern.matcher(reply.getText()).find() -> {
                     // put latest image URL to black-list
                     who(reply)
-                } else {
+                }
+                else -> {
                     //auto reply (when fujimiya-san follows the replier)
                     val update = StatusUpdate("@" + reply.getUser().getScreenName() + " ")
                     update.setInReplyToStatusId(reply.getId())
@@ -61,19 +62,12 @@ public class AkalinReply : AbstractCron() {
                     }
                 }
             }
-        } catch (e: TwitterException) {
-            logger.log(Level.WARNING, e.toString())
-            e.printStackTrace()
         }
 
     }
 
-    private fun isOutOfDate(reply: Status, lastStatus: Status): Boolean {
-        if (reply.getCreatedAt().getTime() - lastStatus.getCreatedAt().getTime() <= 0) {
-            logger.log(Level.INFO, reply.getUser().getName() + "'s tweet at " + format.format(reply.getCreatedAt()) + " is out of date")
-            return true
-        }
-        return false
+    private fun isOutOfDate(reply: Status, lastStatus: Status?): Boolean {
+        return lastStatus?.getCreatedAt()?.after(reply.getCreatedAt())?.not() ?:false
     }
 
     private fun followBack(reply: Status) {

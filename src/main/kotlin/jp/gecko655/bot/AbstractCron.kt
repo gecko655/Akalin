@@ -59,8 +59,7 @@ abstract class AbstractCron : Job {
     }
     abstract protected fun twitterCron()
 
-    public fun getFujimiyaUrl(query: String) :FetchedImage = getFujimiyaUrl(query,100)
-    public fun getFujimiyaUrl(query: String, maxRankOfResult: Int) :FetchedImage{
+    public fun getFujimiyaUrl(query: String, maxRankOfResult: Int = 100) :FetchedImage{
         val search = getSearchResult(query,maxRankOfResult)
         val items = search.getItems()
         for(result in items){
@@ -110,14 +109,14 @@ abstract class AbstractCron : Job {
     public fun updateStatusWithMedia(update: StatusUpdate, query: String, maxRankOfResult: Int){
         val fetchedImage = getFujimiyaUrl(query,maxRankOfResult)
         update.media("fujimiya.jpg",fetchedImage.instream)
-        for(i in 1..10){
+        (1..10).forEach { i ->
             try {
                 val succeededStatus = twitter.updateStatus(update)
                 logger.log(Level.INFO, "Successfully tweeted: " + succeededStatus.getText());
                 DBConnection.storeImageUrl(succeededStatus, fetchedImage)
                 return
-            }catch(e: TwitterException){
-                logger.log(Level.INFO,"updateStatusWithMedia failed. try again. "+ e.getErrorMessage())
+            } catch(e: TwitterException) {
+                logger.log(Level.INFO, "updateStatusWithMedia failed. try again. " + e.getErrorMessage())
             }
         }
         logger.log(Level.SEVERE,"updateStatusWithMedia failed 10 times. Stop.")
