@@ -38,19 +38,18 @@ public class AkalinReply : AbstractCron() {
             return
         }
 
-        replies.forEach { reply ->
+        replies.forEach({ reply ->
+            if (!twitter.friendsFollowers()
+                    .showFriendship(twitter.getId(), reply.getUser().getId())
+                    .isSourceFollowingTarget())
+                followBack(reply)
             when {
-                !twitter.friendsFollowers()
-                        .showFriendship(twitter.getId(), reply.getUser().getId())
-                        .isSourceFollowingTarget() -> {
-                    followBack(reply)
-                }
                 whoPattern.matcher(reply.getText()).find() -> {
-                    // put latest image URL to black-list
+                    // put image URL to black-list
                     who(reply)
                 }
                 else -> {
-                    //auto reply (when fujimiya-san follows the replier)
+                    //auto reply
                     val update = StatusUpdate("@" + reply.getUser().getScreenName() + " ")
                     update.setInReplyToStatusId(reply.getId())
                     when ((Math.random() * 10).toInt()) {
@@ -61,7 +60,7 @@ public class AkalinReply : AbstractCron() {
                     }
                 }
             }
-        }
+        })
 
     }
 
