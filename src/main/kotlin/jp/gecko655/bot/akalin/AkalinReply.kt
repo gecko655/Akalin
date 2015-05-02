@@ -27,7 +27,7 @@ public class AkalinReply : AbstractCron() {
     override fun twitterCron() {
         val lastStatus = DBConnection.getLastStatus()
         val replies = twitter.getMentionsTimeline((Paging()).count(20))
-                .filterNot { isOutOfDate(it,lastStatus) }
+                .filter { isValidReply(it,lastStatus) }
         if(replies.isEmpty()){
             logger.log(Level.FINE, "No replies found. Stop.")
             return
@@ -65,8 +65,8 @@ public class AkalinReply : AbstractCron() {
 
     }
 
-    private fun isOutOfDate(reply: Status, lastStatus: Status?): Boolean {
-        return lastStatus?.getCreatedAt()?.after(reply.getCreatedAt())?.not() ?:false
+    private fun isValidReply(reply: Status, lastStatus: Status?): Boolean {
+        return lastStatus?.getCreatedAt()?.before(reply.getCreatedAt()) ?:true
     }
 
     private fun followBack(reply: Status) {
