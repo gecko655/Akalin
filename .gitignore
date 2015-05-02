@@ -4,7 +4,8 @@
 lib/
 
 ## Directory-based project format:
-.idea/
+.idea/workspace.xml
+.idea/libraries
 # if you remove the above rule, at least ignore the following:
 
 # User-specific stuff:
@@ -45,3 +46,5 @@ target
 
 *.swp
 *~
+
+config.sh
