@@ -68,7 +68,7 @@ public class AkalinReply : AbstractCron() {
     }
 
     private fun isValidReply(reply: Status, lastStatus: Status?): Boolean {
-        return lastStatus?.getCreatedAt()?.before(reply.getCreatedAt()) ?:true
+        return lastStatus?.getCreatedAt()?.before(reply.getCreatedAt()) ?:false
     }
 
     private fun followBack(reply: Status) {
