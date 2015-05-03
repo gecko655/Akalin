@@ -52,13 +52,15 @@ public class AkalinReply : AbstractCron() {
                     //auto reply
                     val update = StatusUpdate("@" + reply.getUser().getScreenName() + " ")
                     update.setInReplyToStatusId(reply.getId())
-                    when ((Math.random() * 13).toInt()) {
+                    when ((Math.random() * 20).toInt()) {
                         0 -> updateStatusWithMedia(update, "赤座あかり ゆるゆり かわいい", 100)
-                        in 1..3 -> updateStatusWithMedia(update, "歳納京子 ゆるゆり かわいい", 100)
-                        in 4..6 -> updateStatusWithMedia(update, "船見結衣 ゆるゆり かわいい", 100)
-                        in 7..9 -> updateStatusWithMedia(update, "吉川ちなつ ゆるゆり かわいい", 100)
-                        10 -> updateStatusWithMedia(update, "向日葵 ゆるゆり かわいい", 100)
-                        11 -> updateStatusWithMedia(update, "櫻子 ゆるゆり かわいい", 100)
+                        in 1..4 -> updateStatusWithMedia(update, "歳納京子 ゆるゆり かわいい", 100)
+                        in 5..8 -> updateStatusWithMedia(update, "船見結衣 ゆるゆり かわいい", 100)
+                        in 9..12 -> updateStatusWithMedia(update, "吉川ちなつ ゆるゆり かわいい", 100)
+                        in 13..14 -> updateStatusWithMedia(update, "向日葵 ゆるゆり かわいい", 100)
+                        in 15..16 -> updateStatusWithMedia(update, "櫻子 ゆるゆり かわいい", 100)
+                        17 -> updateStatusWithMedia(update, "杉浦綾乃 ゆるゆり かわいい", 100)
+                        18 -> updateStatusWithMedia(update, "池田千歳 ゆるゆり かわいい", 100)
                         else -> updateStatusWithMedia(update, "ゆるゆり かわいい", 100)
                     }
                 }
