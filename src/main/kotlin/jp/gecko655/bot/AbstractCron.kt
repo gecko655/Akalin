@@ -59,7 +59,7 @@ abstract class AbstractCron : Job {
     }
     abstract protected fun twitterCron()
 
-    public fun getFujimiyaUrl(query: String, maxRankOfResult: Int = 100) :FetchedImage{
+    public fun getImageUrl(query: String, maxRankOfResult: Int = 100) :FetchedImage{
         val search = getSearchResult(query,maxRankOfResult)
         val items = search.getItems()
         for(result in items){
@@ -107,7 +107,7 @@ abstract class AbstractCron : Job {
     }
 
     public fun updateStatusWithMedia(update: StatusUpdate, query: String, maxRankOfResult: Int){
-        val fetchedImage = getFujimiyaUrl(query,maxRankOfResult)
+        val fetchedImage = getImageUrl(query,maxRankOfResult)
         update.media("fujimiya.jpg",fetchedImage.instream)
         (1..10).forEach { i ->
             try {
