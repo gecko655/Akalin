@@ -69,10 +69,6 @@ object DBConnection {
     }
 
     public fun isInBlackList(link: String): Boolean {
-        if(blackListCollectionName==null){
-            logger.log(Level.WARNING, "No collection to mongodb")
-            return false
-        }
         val blackListCollection = db.getCollection(blackListCollectionName)
         return blackListCollection.find(Filters.eq<String>(urlKey, link)).iterator().hasNext()
     }
