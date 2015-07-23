@@ -53,15 +53,8 @@ public class AkalinReply : AbstractCron() {
                     val update = StatusUpdate("@" + reply.getUser().getScreenName() + " ")
                     update.setInReplyToStatusId(reply.getId())
                     val query = when ((Math.random() * 20).toInt()) {
-                        0 -> "赤座あかり ゆるゆり かわいい"
-                        in 1..4 -> "歳納京子 ゆるゆり かわいい"
-                        in 5..8 -> "船見結衣 ゆるゆり かわいい"
-                        in 9..12 -> "吉川ちなつ ゆるゆり かわいい"
-                        in 13..14 -> "向日葵 ゆるゆり かわいい"
-                        in 15..16 -> "櫻子 ゆるゆり かわいい"
-                        17 -> "杉浦綾乃 ゆるゆり かわいい"
-                        18 -> "池田千歳 ゆるゆり かわいい"
-                        else -> "ゆるゆり かわいい"
+                        in 0..10 -> "赤座あかり ゆるゆり かわいい"
+                        else -> "赤座あかり 誕生日 ゆるゆり かわいい"
                     }
                     updateStatusWithMedia(update, query, 100)
                 }
