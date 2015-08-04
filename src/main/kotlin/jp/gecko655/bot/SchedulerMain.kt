@@ -2,7 +2,6 @@ package jp.gecko655.bot
 
 import jp.gecko655.bot.akalin.AkalinBot
 import jp.gecko655.bot.akalin.AkalinReply
-import org.jetbrains.kotlin.load.java.structure
 import org.quartz.*
 import org.quartz.JobBuilder.newJob
 import org.quartz.SimpleScheduleBuilder.repeatSecondlyForever
