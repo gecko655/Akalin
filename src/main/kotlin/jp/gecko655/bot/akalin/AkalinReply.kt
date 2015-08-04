@@ -27,18 +27,23 @@ public class AkalinReply : AbstractCron() {
     override fun twitterCron() {
         val lastStatus = DBConnection.getLastStatus()
         val replies = twitter.getMentionsTimeline((Paging()).count(20))
-                .filter { isValidReply(it,lastStatus) }
         if(replies.isEmpty()){
-            logger.log(Level.FINE, "No replies found. Stop.")
+            logger.log(Level.INFO, "No replies found. Stop.")
             return
         }
         DBConnection.setLastStatus(replies.get(0))
+        
         if (lastStatus == null) {
             logger.log(Level.INFO, "memcache saved. Stop. " + replies.get(0).getUser().getName() + "'s tweet at " + format.format(replies.get(0).getCreatedAt()))
             return
         }
+        val validReplies = replies.filter { isValidReply(it,lastStatus) }
+        if(validReplies.isEmpty()){
+            logger.log(Level.FINE, "No valid replies. Stop.")
+            return
+        }
 
-        replies.forEach({ reply ->
+        validReplies.forEach({ reply ->
             if (!twitter.friendsFollowers()
                     .showFriendship(twitter.getId(), reply.getUser().getId())
                     .isSourceFollowingTarget())
