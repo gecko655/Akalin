@@ -8,7 +8,9 @@ public class AkalinBot : AbstractCron() {
     override fun twitterCron() {
         //Twitterに書き出し
         val status = StatusUpdate(" ")
-        val query = when ((Math.random() * 20).toInt()) {
+        val query = "大室櫻子 ゆるゆり"
+        /*
+                when ((Math.random() * 20).toInt()) {
             0 -> "赤座あかり ゆるゆり"
             in 1..4 -> "歳納京子 ゆるゆり"
             in 5..8 -> "船見結衣 ゆるゆり"
@@ -19,6 +21,7 @@ public class AkalinBot : AbstractCron() {
             18 -> "池田千歳 ゆるゆり"
             else -> "ゆるゆり"
         }
+        */
         updateStatusWithMedia(status, query, 100)
 
     }
