@@ -1,18 +1,19 @@
 package jp.gecko655.bot.akalin
 
 
-import java.text.DateFormat
-import java.util.TimeZone
-import java.util.logging.Level
-import java.util.regex.Pattern
-
 import jp.gecko655.bot.AbstractCron
 import jp.gecko655.bot.DBConnection
 import twitter4j.Paging
-import twitter4j.Relationship
 import twitter4j.Status
 import twitter4j.StatusUpdate
 import twitter4j.TwitterException
+import java.text.DateFormat
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.util.TimeZone
+import java.util.logging.Level
+import java.util.regex.Pattern
 
 public class AkalinReply : AbstractCron() {
 
@@ -76,6 +77,11 @@ public class AkalinReply : AbstractCron() {
     }
 
     private fun isValidReply(reply: Status, lastStatus: Status?): Boolean {
+        if(Duration.between(
+                reply.getCreatedAt().toInstant(),
+                LocalDateTime.now().toInstant(ZoneOffset.UTC))
+                .toHours()>12)
+            return false;
         return lastStatus?.getCreatedAt()?.before(reply.getCreatedAt()) ?:false
     }
 
