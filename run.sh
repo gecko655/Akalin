@@ -1,1 +1,1 @@
-docker run `cat secretenv | sed -e 's/^/-e /'` env -t akalin 
+docker run -d --name akalin  --env-file secretenv akalin
