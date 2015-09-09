@@ -1,1 +1,1 @@
-docker build -t akalin .
+docker build -t gecko655/akalin .
