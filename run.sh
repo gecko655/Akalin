@@ -1,1 +1,1 @@
-docker run -d --name gecko655/akalin  --env-file secretenv akalin
+docker run -d --name akalin  --env-file secretenv gecko655/akalin
