@@ -29,11 +29,7 @@ import kotlin.properties.Delegates
 
 object DBConnection {
 
-    private val logger: Logger by Delegates.lazy{
-        val l = Logger.getLogger(javaClass<DBConnection>().getName())
-        l.setLevel(Level.INFO)
-        l
-    }
+    private val logger = Logger.getLogger(javaClass<DBConnection>().getName())
 
     private val mongoClientURI = MongoClientURI(System.getenv("MONGOLAB_URI"))
     private val client = MongoClient(mongoClientURI)
@@ -62,7 +58,7 @@ object DBConnection {
             val doc = Document(urlKey, url)
             doc.put(reportedUserKey, reportedUser)
             blackListCollection.insertOne(doc)
-            logger.log(Level.INFO, "The image URL: " + url + " was stored to the black list.")
+
         } else {
             logger.log(Level.WARNING, "Image URL was not found in data collection")
         }
