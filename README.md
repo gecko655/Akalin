@@ -1,7 +1,7 @@
 # Akalin
 ＼アッカリ～ン／
 
-https://twitter.com/akalin_kotlin
+https://twitter.com/akalin_pic
 
 [![Build Status](https://travis-ci.org/gecko655/Akalin.svg?branch=master)](https://travis-ci.org/gecko655/Akalin)
 
