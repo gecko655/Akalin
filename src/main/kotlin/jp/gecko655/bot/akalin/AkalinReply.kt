@@ -50,7 +50,11 @@ public class AkalinReply : AbstractCron() {
                     .isSourceFollowingTarget())
                 followBack(reply)
             when {
-                whoPattern.matcher(reply.getText()).find() -> {
+                whoPattern.matcher(reply.getText()).find()//The reply has 誰 format
+                        &&reply.getInReplyToStatusId()>0//The reply replies to a specific tweet.
+                        &&twitter.showStatus(reply.getInReplyToStatusId()).getMediaEntities().isNotEmpty()
+                            //The specific tweet has at least 1 media entry
+                -> {
                     // put image URL to black-list
                     who(reply)
                 }
