@@ -53,6 +53,7 @@ abstract class AbstractCron : Job {
         try {
             twitterCron()
         }catch(e: Exception){
+            logger.log(Level.SEVERE,e.toString())
             e.printStackTrace()
         }
 
