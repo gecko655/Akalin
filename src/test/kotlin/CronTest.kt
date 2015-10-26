@@ -10,7 +10,8 @@ import kotlin.test.*
 
 public class CronTest {
     var cron :AbstractCron? = null
-    Before fun setup(){
+    @Before
+    fun setup(){
         cron = object: AbstractCron(){
             override fun twitterCron() {
                 throw UnsupportedOperationException()
@@ -18,7 +19,8 @@ public class CronTest {
         }
     }
 
-    Test fun test() {
+    @Test
+    fun test() {
         val fetchedImage = cron!!.getImageUrl("gecko655")
         val image =ImageIO.read(fetchedImage.instream)
         assertTrue(image.getHeight()+image.getWidth()>=600,"image size is too small.")
