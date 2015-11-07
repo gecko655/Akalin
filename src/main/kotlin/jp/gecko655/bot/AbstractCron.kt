@@ -21,7 +21,7 @@ import kotlin.properties.Delegates
 
 abstract class AbstractCron : Job {
 
-    protected val logger :Logger by Delegates.lazy {
+    protected val logger :Logger by lazy {
         val l = Logger.getLogger("Fujimiya")
         l.setLevel(Level.INFO)
         l
@@ -34,7 +34,7 @@ abstract class AbstractCron : Job {
     private val accessTokenSecret = System.getenv("accessTokenSecret")
     private val customSearchCx = System.getenv("customSearchCx")
     private val customSearchKey = System.getenv("customSearchKey")
-    protected val twitter :Twitter by Delegates.lazy{
+    protected val twitter :Twitter by lazy{
         val cb = ConfigurationBuilder()
                 .setDebugEnabled(true)
                 .setOAuthAccessToken(accessToken)
@@ -44,7 +44,7 @@ abstract class AbstractCron : Job {
         TwitterFactory(cb.build()).getInstance()
 
     }
-    private val search :Customsearch by Delegates.lazy{
+    private val search :Customsearch by lazy{
         val builder = Customsearch.Builder(NetHttpTransport(), JacksonFactory(), null).setApplicationName("Google")
         builder.build()
     }

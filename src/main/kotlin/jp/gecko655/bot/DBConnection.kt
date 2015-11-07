@@ -29,7 +29,7 @@ import kotlin.properties.Delegates
 
 object DBConnection {
 
-    private val logger = Logger.getLogger(javaClass<DBConnection>().getName())
+    private val logger = Logger.getLogger(DBConnection::class.simpleName)
 
     private val mongoClientURI = MongoClientURI(System.getenv("MONGOLAB_URI"))
     private val client = MongoClient(mongoClientURI)

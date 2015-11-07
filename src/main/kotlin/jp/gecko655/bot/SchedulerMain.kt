@@ -17,8 +17,8 @@ private val scheduler: Scheduler =  StdSchedulerFactory.getDefaultScheduler()
 fun main(args: Array<String>){
     System.out.println("Scheduler Started!!!")
 
-    setSchedule(javaClass<AkalinReply>(), SimpleScheduleBuilder.repeatSecondlyForever(2*60))
-    setSchedule(javaClass<AkalinBot>(), SimpleScheduleBuilder.repeatSecondlyForever(4*60*60))
+    setSchedule(AkalinReply::class.java, SimpleScheduleBuilder.repeatSecondlyForever(2*60))
+    setSchedule(AkalinBot::class.java, SimpleScheduleBuilder.repeatSecondlyForever(4*60*60))
 
     scheduler.start()
 
