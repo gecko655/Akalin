@@ -1,2 +1,10 @@
-language: java
-jdk: oraclejdk8
+sudo: required
+services:
+- docker
+before_install:
+- openssl aes-256-cbc -K $encrypted_35aff7a82d0f_key -iv $encrypted_35aff7a82d0f_iv
+  -in secretenv_test.enc -out secretenv_test -d
+- "./build.sh"
+- "./run.sh test"
+script:
+- mvn test

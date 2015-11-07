@@ -48,4 +48,5 @@ target
 *~
 
 config.sh
-secretenv
+secretenv_release
+secretenv_test
