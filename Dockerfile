@@ -7,4 +7,4 @@ RUN mvn install
 COPY src /usr/akalin/src
 
 RUN mvn -Dmaven.test.skip=true package
-CMD ["java", "-cp", "target/classes:target/dependency/*", "jp.gecko655.bot.BotPackage"]
+CMD ["java", "-cp", "target/classes:target/dependency/*", "jp.gecko655.bot.SchedulerMainKt"]
