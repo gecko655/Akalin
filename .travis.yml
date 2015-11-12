@@ -7,4 +7,4 @@ before_install:
 - "./build.sh"
 - "./run.sh test"
 script:
-- mvn test
+- docker exec akalin mvn test
