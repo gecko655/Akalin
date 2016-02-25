@@ -63,8 +63,7 @@ abstract class AbstractCron : Job {
     public fun getImageUrl(query: String, maxRankOfResult: Int = 100) :FetchedImage{
         val search = getSearchResult(query,maxRankOfResult)
         val items = search.getItems()
-        for(result in items){
-            val i = items.indexOf(result)
+        for((i, result) in items.withIndex()){
             logger.log(Level.INFO,"query: " + query + " URL: "+result.getLink())
             logger.log(Level.INFO,"page URL: "+result.getImage().getContextLink())
             if(result.getImage().getWidth()+result.getImage().getHeight()<600){
